@@ -47,5 +47,17 @@
     <ClInclude Include="hittable.h">
       <Filter>Entity</Filter>
     </ClInclude>
+    <ClInclude Include="hittable_list.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="rtweekend.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="interval.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
