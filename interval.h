@@ -9,7 +9,7 @@ public:
 	{
 	} // Default interval is empty
 
-	interval(double min, double max) : min(min), max(max)
+	interval(const double min, const double max) : min(min), max(max)
 	{
 	}
 
@@ -18,15 +18,23 @@ public:
 		return max - min;
 	}
 
-	bool contains(double x) const
+	bool contains(const double x) const
 	{
 		return min <= x && x <= max;
 	}
 
-	bool surrounds(double x) const
+	bool surrounds(const double x) const
 	{
 		return min < x && x < max;
 	}
+
+	double clamp(const double x) const
+	{
+		if (x < min) return min;
+		if (x > max) return max;
+		return x;
+	}
+
 
 	static const interval empty, universe;
 };
