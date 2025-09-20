@@ -9,13 +9,20 @@ public:
 	sphere(const point3& static_center, double radius, shared_ptr<material> mat)
 		: center_(static_center, vec3(0, 0, 0)), radius_(std::fmax(0, radius)), mat_(mat)
 	{
+		const auto rvec = vec3(radius, radius, radius);
+		bbox_ = aabb(static_center - rvec, static_center + rvec);
 	}
+
 
 	// Moving Sphere
 	sphere(const point3& center1, const point3& center2, double radius,
 	       shared_ptr<material> mat)
 		: center_(center1, center2 - center1), radius_(std::fmax(0, radius)), mat_(mat)
 	{
+		const auto rvec = vec3(radius, radius, radius);
+		aabb box1(center_.at(0) - rvec, center_.at(0) + rvec);
+		aabb box2(center_.at(1) - rvec, center_.at(1) + rvec);
+		bbox_ = aabb(box1, box2);
 	}
 
 
@@ -53,8 +60,11 @@ public:
 		return true;
 	}
 
+	aabb bounding_box() const override { return bbox_; }
+
 private:
-	ray center_;   // 球支持运动
+	ray center_; // 球支持运动
 	double radius_;
 	shared_ptr<material> mat_;
+	aabb bbox_;
 };
