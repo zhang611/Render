@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include "hittable.h"
 #include "ProjectUtil.h"
 #include "material.h"
@@ -20,9 +21,10 @@ public:
 	double defocus_angle = 0; // Variation angle of rays through each pixel
 	double focus_dist = 10; // Distance from camera lookfrom point to plane of perfect focus
 
-	void render(const hittable& world)
+	void render(const hittable& world, int index = 0)
 	{
-		std::ofstream out(get_project_root_dir() + "\\output.ppm"); // 输出到文件
+		std::string filename = get_project_root_dir() + "\\output" + std::to_string(index) + ".ppm";
+		std::ofstream out(filename); // 输出到文件
 
 		initialize();
 

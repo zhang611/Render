@@ -139,6 +139,8 @@
     <ClInclude Include="material.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="rtweekend.h" />
+    <ClInclude Include="scene1.h" />
+    <ClInclude Include="scene2.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="vec3.h" />
   </ItemGroup>
