@@ -1,6 +1,7 @@
 #pragma once
 #include "hittable.h"
 #include "ProjectUtil.h"
+#include "material.h"
 
 class camera
 {
@@ -31,14 +32,6 @@ public:
 					pixel_color += ray_color(r, max_depth, world);
 				}
 				write_color(out, pixel_samples_scale * pixel_color);
-
-
-				// auto pixel_center = pixel00_loc + (i * pixel_delta_u) + (j * pixel_delta_v);
-				// auto ray_direction = pixel_center - center;
-				// ray r(center, ray_direction);
-				//
-				// color pixel_color = ray_color(r, world);
-				// write_color(out, pixel_color);
 			}
 		}
 
@@ -88,9 +81,16 @@ private:
 
 		if (world.hit(r, interval(0.001, infinity), rec))
 		{
-			// vec3 direction = random_on_hemisphere(rec.normal);    // 半球反射
-			vec3 direction = rec.normal + random_unit_vector();      // 兰伯特反射，更真实
-			return 0.7 * ray_color(ray(rec.p, direction), depth - 1, world);
+
+			ray scattered;
+			color attenuation;
+			if (rec.mat->scatter(r, rec, attenuation, scattered))
+				return attenuation * ray_color(scattered, depth - 1, world);
+			return {0, 0, 0};
+
+			// // vec3 direction = random_on_hemisphere(rec.normal);    // 半球反射
+			// vec3 direction = rec.normal + random_unit_vector();      // 兰伯特反射，更真实
+			// return 0.7 * ray_color(ray(rec.p, direction), depth - 1, world);
 		}
 
 		vec3 unit_direction = unit_vector(r.direction());

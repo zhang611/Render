@@ -10,6 +10,12 @@ public:
 	{
 	}
 
+	sphere(const point3& center, double radius, shared_ptr<material> mat)
+		: center_(center), radius_(std::fmax(0, radius)), mat_(mat)
+	{
+	}
+
+
 	bool hit(const ray& r, interval ray_t, hit_record& rec) const override
 	{
 		vec3 oc = center_ - r.origin();
@@ -36,6 +42,7 @@ public:
 		vec3 outward_normal = (rec.p - center_) / radius_;
 		rec.set_face_normal(r, outward_normal);
 		// rec.normal = (rec.p - center_) / radius_;    // 发现固定向外的形式
+		rec.mat = mat_;
 
 		return true;
 	}
@@ -43,4 +50,5 @@ public:
 private:
 	point3 center_;
 	double radius_;
+	shared_ptr<material> mat_;
 };
