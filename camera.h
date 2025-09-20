@@ -148,7 +148,8 @@ private:
 
 		const auto ray_direction = pixel_sample - ray_origin;
 
-		return ray(ray_origin, ray_direction);
+		auto ray_time = random_double();
+		return ray(ray_origin, ray_direction, ray_time);
 	}
 
 	static vec3 sample_square()
