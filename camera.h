@@ -11,6 +11,8 @@ public:
 	int image_width = 100; // Rendered image width in pixel count
 	int samples_per_pixel = 10; // Count of random samples for each pixel
 	int max_depth = 10; // Maximum number of ray bounces into scene
+	color background; // Scene background color
+
 
 	double vfov = 90; // Vertical view angle (field of view)
 	point3 lookfrom = point3(0, 0, 0); // Point camera is looking from
@@ -21,9 +23,9 @@ public:
 	double defocus_angle = 0; // Variation angle of rays through each pixel
 	double focus_dist = 10; // Distance from camera lookfrom point to plane of perfect focus
 
-	void render(const hittable& world, const int index = 0)
+	void render(const hittable& world, const std::string& name)
 	{
-		const std::string filename = get_project_root_dir() + "\\output" + std::to_string(index) + ".ppm";
+		const std::string filename = get_project_root_dir() + "\\output_" + name + ".ppm";
 		std::ofstream out(filename); // 输出到文件
 
 		initialize();
@@ -50,7 +52,7 @@ public:
 
 private:
 	int image_height = 0; // Rendered image height
-	double pixel_samples_scale = 0; // Color scale factor for a sum of pixel samples
+	double pixel_samples_scale = 0; // Color scale_ factor for a sum of pixel samples
 	point3 center; // Camera center
 	point3 pixel00_loc; // Location of pixel 0, 0
 	vec3 pixel_delta_u; // Offset to pixel to the right
@@ -107,27 +109,21 @@ private:
 		defocus_disk_v = v * defocus_radius;
 	}
 
-	static color ray_color(const ray& r, const int depth, const hittable& world)
+	color ray_color(const ray& r, const int depth, const hittable& world)
 	{
 		if (depth <= 0) return {0, 0, 0};
 		hit_record rec;
 
-		if (world.hit(r, interval(0.001, infinity), rec))
-		{
-			ray scattered;
-			color attenuation;   // 得到颜色的引用
-			if (rec.mat->scatter(r, rec, attenuation, scattered))
-				return attenuation * ray_color(scattered, depth - 1, world);
-			return {0, 0, 0};
+		// If the ray hits nothing, return the background color.
+		if (!world.hit(r, interval(0.001, infinity), rec)) return background;
 
-			// // vec3 direction = random_on_hemisphere(rec.normal);    // 半球反射
-			// vec3 direction = rec.normal + random_unit_vector();      // 兰伯特反射，更真实
-			// return 0.7 * ray_color(ray(rec.p, direction), depth - 1, world);
-		}
+		ray scattered;
+		color attenuation;
+		color color_from_emission = rec.mat->emitted(rec.u, rec.v, rec.p);
 
-		vec3 unit_direction = unit_vector(r.direction());
-		auto a = 0.5 * (unit_direction.y() + 1.0);
-		return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
+		if (!rec.mat->scatter(r, rec, attenuation, scattered)) return color_from_emission;
+		color color_from_scatter = attenuation * ray_color(scattered, depth - 1, world);
+		return color_from_emission + color_from_scatter;
 	}
 
 	ray get_ray(const int i, const int j) const

@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "color.h"
+#include "perlin.h"
 #include "rtw_stb_image.h"
 
 class texture
@@ -94,4 +95,24 @@ public:
 
 private:
 	rtw_image image_;
+};
+
+
+class noise_texture final : public texture
+{
+public:
+	noise_texture(double scale) : scale_(scale)
+	{
+	}
+
+	color value(double u, double v, const point3& p) const override
+	{
+		// return color(1, 1, 1) * noise_.turb(p, 7);
+		return color(.5, .5, .5) * (1 + std::sin(scale_ * p.z() + 10 * noise_.turb(p, 7)));
+
+	}
+
+private:
+	perlin noise_;
+	double scale_;
 };

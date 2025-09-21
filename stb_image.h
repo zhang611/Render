@@ -281,7 +281,7 @@ RECENT REVISION HISTORY:
 // stb_image supports loading HDR images in general, and currently the Radiance
 // .HDR file format specifically. You can still load any file through the existing
 // interface; if you attempt to load an HDR file, it will be automatically remapped
-// to LDR, assuming gamma 2.2 and an arbitrary scale factor defaulting to 1;
+// to LDR, assuming gamma 2.2 and an arbitrary scale_ factor defaulting to 1;
 // both of these constants can be reconfigured through this interface:
 //
 //     stbi_hdr_to_ldr_gamma(2.2f);
@@ -2514,7 +2514,7 @@ static void stbi__idct_block(stbi_uc* out, int out_stride, short data[64])
         // no fast case since the first 1D IDCT spread components out
         STBI__IDCT_1D(v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7])
             // constants scaled things up by 1<<12, plus we had 1<<2 from first
-            // loop, plus horizontal and vertical each scale by sqrt(8) so together
+            // loop, plus horizontal and vertical each scale_ by sqrt(8) so together
             // we've got an extra 1<<3, so 1<<17 total we need to remove.
             // so we want to round that, which means adding 0.5 * 1<<17,
             // aka 65536. Also, we'll end up with -128 to 127 that we want
@@ -4833,7 +4833,7 @@ static int stbi__create_png_image_raw(stbi__png* a, stbi_uc* raw, stbi__uint32 r
 
         // expand decoded bits in cur to dest, also adding an extra alpha channel if desired
         if (depth < 8) {
-            stbi_uc scale = (color == 0) ? stbi__depth_scale_table[depth] : 1; // scale grayscale values to 0..255 range
+            stbi_uc scale = (color == 0) ? stbi__depth_scale_table[depth] : 1; // scale_ grayscale values to 0..255 range
             stbi_uc* in = cur;
             stbi_uc* out = dest;
             stbi_uc inb = 0;

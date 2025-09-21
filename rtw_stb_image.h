@@ -18,36 +18,17 @@ class rtw_image
 public:
 	rtw_image() = default;
 
-	rtw_image(const char* image_filename)
+	explicit rtw_image(const char* image_filename)
 	{
-		// Loads image data from the specified file. If the RTW_IMAGES environment variable is
-		// defined, looks only in that directory for the image file. If the image was not found,
-		// searches for the specified image file first from the current directory, then in the
-		// images/ subdirectory, then the _parent's_ images/ subdirectory, and then _that_
-		// parent, on so on, for six levels up. If the image was not loaded successfully,
-		// width() and height() will return 0.
-
 		const auto filename = std::string(image_filename);
-		// const auto imagedir = getenv("RTW_IMAGES");
-
-		// Hunt for the image file in some likely locations.
-		// if (imagedir && load(std::string(imagedir) + "/" + image_filename)) return;
 		if (load(filename)) return;
-		// if (load("images/" + filename)) return;
-		// if (load("../images/" + filename)) return;
-		// if (load("../../images/" + filename)) return;
-		// if (load("../../../images/" + filename)) return;
-		// if (load("../../../../images/" + filename)) return;
-		// if (load("../../../../../images/" + filename)) return;
-		// if (load("../../../../../../images/" + filename)) return;
-
 		std::cerr << "ERROR: Could not load image file '" << image_filename << "'.\n";
 	}
 
 	~rtw_image()
 	{
-		delete[] bdata;
-		STBI_FREE(fdata);
+		delete[] bdata_;
+		STBI_FREE(fdata_);
 	}
 
 	bool load(const std::string& filename)
@@ -59,39 +40,39 @@ public:
 		// below, for the full height of the image.
 
 		auto n = bytes_per_pixel; // Dummy out parameter: original components per pixel
-		fdata = stbi_loadf(filename.c_str(), &image_width, &image_height, &n, bytes_per_pixel);
-		if (fdata == nullptr) return false;
+		fdata_ = stbi_loadf(filename.c_str(), &image_width_, &image_height_, &n, bytes_per_pixel);
+		if (fdata_ == nullptr) return false;
 
-		bytes_per_scanline = image_width * bytes_per_pixel;
+		bytes_per_scanline_ = image_width_ * bytes_per_pixel;
 		convert_to_bytes();
 		return true;
 	}
 
-	int width() const { return (fdata == nullptr) ? 0 : image_width; }
-	int height() const { return (fdata == nullptr) ? 0 : image_height; }
+	int width() const { return (fdata_ == nullptr) ? 0 : image_width_; }
+	int height() const { return (fdata_ == nullptr) ? 0 : image_height_; }
 
 	const unsigned char* pixel_data(int x, int y) const
 	{
 		// Return the address of the three RGB bytes of the pixel at x,y. If there is no image
 		// data, returns magenta.
 		static unsigned char magenta[] = {255, 0, 255};
-		if (bdata == nullptr) return magenta;
+		if (bdata_ == nullptr) return magenta;
 
-		x = clamp(x, 0, image_width);
-		y = clamp(y, 0, image_height);
+		x = clamp(x, 0, image_width_);
+		y = clamp(y, 0, image_height_);
 
-		return bdata + y * bytes_per_scanline + x * bytes_per_pixel;
+		return bdata_ + y * bytes_per_scanline_ + x * bytes_per_pixel;
 	}
 
 private:
 	const int bytes_per_pixel = 3;
-	float* fdata = nullptr; // Linear floating point pixel data
-	unsigned char* bdata = nullptr; // Linear 8-bit pixel data
-	int image_width = 0; // Loaded image width
-	int image_height = 0; // Loaded image height
-	int bytes_per_scanline = 0;
+	float* fdata_ = nullptr; // Linear floating point pixel data
+	unsigned char* bdata_ = nullptr; // Linear 8-bit pixel data
+	int image_width_ = 0; // Loaded image width
+	int image_height_ = 0; // Loaded image height
+	int bytes_per_scanline_ = 0;
 
-	static int clamp(int x, int low, int high)
+	static int clamp(const int x, const int low, const int high)
 	{
 		// Return the value clamped to the range [low, high).
 		if (x < low) return low;
@@ -99,12 +80,10 @@ private:
 		return high - 1;
 	}
 
-	static unsigned char float_to_byte(float value)
+	static unsigned char float_to_byte(const float value)
 	{
-		if (value <= 0.0)
-			return 0;
-		if (1.0 <= value)
-			return 255;
+		if (value <= 0.0) return 0;
+		if (1.0 <= value) return 255;
 		return static_cast<unsigned char>(256.0 * value);
 	}
 
@@ -113,14 +92,14 @@ private:
 		// Convert the linear floating point pixel data to bytes, storing the resulting byte
 		// data in the `bdata` member.
 
-		int total_bytes = image_width * image_height * bytes_per_pixel;
-		bdata = new unsigned char[total_bytes];
+		const int total_bytes = image_width_ * image_height_ * bytes_per_pixel;
+		bdata_ = new unsigned char[total_bytes];
 
 		// Iterate through all pixel components, converting from [0.0, 1.0] float values to
 		// unsigned [0, 255] byte values.
 
-		auto* bptr = bdata;
-		auto* fptr = fdata;
+		auto* bptr = bdata_;
+		auto* fptr = fdata_;
 		for (auto i = 0; i < total_bytes; i++, fptr++, bptr++)
 			*bptr = float_to_byte(*fptr);
 	}
