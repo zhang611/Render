@@ -9,9 +9,7 @@
 #include "material.h"
 
 
-/// <summary>
-/// ¾°ÉîĞ§¹û
-/// </summary>
+
 inline void scene1()
 {
 	// basic setting

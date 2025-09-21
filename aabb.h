@@ -51,21 +51,21 @@ public:
 			const interval& ax = axis_interval(axis);
 			const double adinv = 1.0 / ray_dir[axis];
 
-			auto t0 = (ax.min - ray_orig[axis]) * adinv; // 进入时间
-			auto t1 = (ax.max - ray_orig[axis]) * adinv; // 出去时间
+			auto t0 = (ax.min_ - ray_orig[axis]) * adinv; // 进入时间
+			auto t1 = (ax.max_ - ray_orig[axis]) * adinv; // 出去时间
 
 			if (t0 < t1)
 			{
-				if (t0 > ray_t.min) ray_t.min = t0; // 进入时间取最大值
-				if (t1 < ray_t.max) ray_t.max = t1; // 出去时间取最小值
+				if (t0 > ray_t.min_) ray_t.min_ = t0; // 进入时间取最大值
+				if (t1 < ray_t.max_) ray_t.max_ = t1; // 出去时间取最小值
 			}
 			else // 光纤在反方向
 			{
-				if (t1 > ray_t.min) ray_t.min = t1;
-				if (t0 < ray_t.max) ray_t.max = t0;
+				if (t1 > ray_t.min_) ray_t.min_ = t1;
+				if (t0 < ray_t.max_) ray_t.max_ = t0;
 			}
 
-			if (ray_t.max <= ray_t.min) // 没有交集
+			if (ray_t.max_ <= ray_t.min_) // 没有交集
 				return false;
 		}
 		return true;
@@ -74,9 +74,7 @@ public:
 	int longest_axis() const
 	{
 		// Returns the index of the longest axis of the bounding box.
-
-		if (x.size() > y.size())
-			return x.size() > z.size() ? 0 : 2;
+		if (x.size() > y.size()) return x.size() > z.size() ? 0 : 2;
 		return y.size() > z.size() ? 1 : 2;
 	}
 

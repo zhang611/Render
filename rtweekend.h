@@ -39,13 +39,13 @@ inline double random_double()
 
 inline double random_double(const double min, const double max)
 {
-	// Returns a random real in [min,max).
+	// Returns a random real in [min_,max_).
 	return min + (max - min) * random_double();
 }
 
 inline int random_int(const int min, const int max)
 {
-	// Returns a random integer in [min,max].
+	// Returns a random integer in [min_,max_].
 	return static_cast<int>(random_double(min, max + 1));
 }
 

@@ -21,9 +21,9 @@ public:
 	double defocus_angle = 0; // Variation angle of rays through each pixel
 	double focus_dist = 10; // Distance from camera lookfrom point to plane of perfect focus
 
-	void render(const hittable& world, int index = 0)
+	void render(const hittable& world, const int index = 0)
 	{
-		std::string filename = get_project_root_dir() + "\\output" + std::to_string(index) + ".ppm";
+		const std::string filename = get_project_root_dir() + "\\output" + std::to_string(index) + ".ppm";
 		std::ofstream out(filename); // 输出到文件
 
 		initialize();
@@ -107,7 +107,7 @@ private:
 		defocus_disk_v = v * defocus_radius;
 	}
 
-	static color ray_color(const ray& r, int depth, const hittable& world)
+	static color ray_color(const ray& r, const int depth, const hittable& world)
 	{
 		if (depth <= 0) return {0, 0, 0};
 		hit_record rec;
@@ -115,7 +115,7 @@ private:
 		if (world.hit(r, interval(0.001, infinity), rec))
 		{
 			ray scattered;
-			color attenuation;
+			color attenuation;   // 得到颜色的引用
 			if (rec.mat->scatter(r, rec, attenuation, scattered))
 				return attenuation * ray_color(scattered, depth - 1, world);
 			return {0, 0, 0};

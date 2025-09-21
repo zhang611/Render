@@ -29,11 +29,11 @@ public:
 	{
 		hit_record temp_rec;
 		bool hit_anything = false;
-		auto closest_so_far = ray_t.max;
+		auto closest_so_far = ray_t.max_;
 
 		for (const auto& object : objects)
 		{
-			if (object->hit(r, interval(ray_t.min, closest_so_far), temp_rec))
+			if (object->hit(r, interval(ray_t.min_, closest_so_far), temp_rec))
 			{
 				hit_anything = true;
 				closest_so_far = temp_rec.t;

@@ -3,49 +3,49 @@
 class interval
 {
 public:
-	double min, max;
+	double min_, max_;
 
-	interval() : min(+infinity), max(-infinity)
+	interval() : min_(+infinity), max_(-infinity)
 	{
 	} // Default interval is empty
 
-	interval(const double min, const double max) : min(min), max(max)
+	interval(const double min, const double max) : min_(min), max_(max)
 	{
 	}
 
 	interval(const interval& a, const interval& b)
 	{
 		// Create the interval tightly enclosing the two input intervals.
-		min = a.min <= b.min ? a.min : b.min;
-		max = a.max >= b.max ? a.max : b.max;
+		min_ = a.min_ <= b.min_ ? a.min_ : b.min_;
+		max_ = a.max_ >= b.max_ ? a.max_ : b.max_;
 	}
 
 	double size() const
 	{
-		return max - min;
+		return max_ - min_;
 	}
 
 	bool contains(const double x) const
 	{
-		return min <= x && x <= max;
+		return min_ <= x && x <= max_;
 	}
 
 	bool surrounds(const double x) const
 	{
-		return min < x && x < max;
+		return min_ < x && x < max_;
 	}
 
 	double clamp(const double x) const
 	{
-		if (x < min) return min;
-		if (x > max) return max;
+		if (x < min_) return min_;
+		if (x > max_) return max_;
 		return x;
 	}
 
 	interval expand(double delta) const
 	{
 		const auto padding = delta / 2;
-		return interval(min - padding, max + padding);
+		return interval(min_ - padding, max_ + padding);
 	}
 
 

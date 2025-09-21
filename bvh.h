@@ -25,7 +25,6 @@ public:
 		bbox = aabb::empty;
 		for (size_t object_index = start; object_index < end; object_index++)
 			bbox = aabb(bbox, objects[object_index]->bounding_box());
-
 		int axis = bbox.longest_axis();
 
 		auto comparator = (axis == 0)
@@ -61,7 +60,7 @@ public:
 			return false;
 
 		bool hit_left = left->hit(r, ray_t, rec);
-		bool hit_right = right->hit(r, interval(ray_t.min, hit_left ? rec.t : ray_t.max), rec);
+		bool hit_right = right->hit(r, interval(ray_t.min_, hit_left ? rec.t : ray_t.max_), rec);
 
 		return hit_left || hit_right;
 	}
@@ -79,7 +78,7 @@ private:
 	{
 		auto a_axis_interval = a->bounding_box().axis_interval(axis_index);
 		auto b_axis_interval = b->bounding_box().axis_interval(axis_index);
-		return a_axis_interval.min < b_axis_interval.min;
+		return a_axis_interval.min_ < b_axis_interval.min_;
 	}
 
 	static bool box_x_compare(const shared_ptr<hittable> a, const shared_ptr<hittable> b)
