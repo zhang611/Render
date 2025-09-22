@@ -11,7 +11,7 @@ public:
 	int image_width = 100; // Rendered image width in pixel count
 	int samples_per_pixel = 10; // Count of random samples for each pixel
 	int max_depth = 10; // Maximum number of ray bounces into scene
-	color background; // Scene background color
+	color background = color(0.70, 0.80, 1.00); // Scene background color
 
 
 	double vfov = 90; // Vertical view angle (field of view)

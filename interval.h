@@ -54,3 +54,14 @@ public:
 
 const interval interval::empty = interval(+infinity, -infinity);
 const interval interval::universe = interval(-infinity, +infinity);
+
+
+inline interval operator+(const interval& ival, double displacement)
+{
+	return interval(ival.min_ + displacement, ival.max_ + displacement);
+}
+
+inline interval operator+(double displacement, const interval& ival)
+{
+	return ival + displacement;
+}

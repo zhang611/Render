@@ -135,6 +135,9 @@
     <ClInclude Include="bvh.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="color.h" />
+    <ClInclude Include="constant_medium.h" />
+    <ClInclude Include="cornell_box.h" />
+    <ClInclude Include="cornell_smoke.h" />
     <ClInclude Include="hittable.h" />
     <ClInclude Include="hittable_list.h" />
     <ClInclude Include="interval.h" />
@@ -153,6 +156,7 @@
     <ClInclude Include="scene4.h" />
     <ClInclude Include="scene5.h" />
     <ClInclude Include="scene7.h" />
+    <ClInclude Include="simple_light.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="texture.h" />

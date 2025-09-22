@@ -10,7 +10,7 @@ public:
 	{
 	}
 
-	vec3(double e0, double e1, double e2) : e{e0, e1, e2}
+	vec3(const double e0, const double e1, const double e2) : e{e0, e1, e2}
 	{
 	}
 

@@ -62,5 +62,71 @@
     <ClInclude Include="material.h">
       <Filter>Entity</Filter>
     </ClInclude>
+    <ClInclude Include="aabb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="bvh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cornell_box.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="perlin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="perlin_spheres.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="quad.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="quads.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rtw_stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene6.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene4.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene5.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene7.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="simple_light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="triangles.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_medium.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="cornell_smoke.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

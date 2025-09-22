@@ -15,7 +15,7 @@ public:
 	aabb(const interval& x, const interval& y, const interval& z)
 		: x(x), y(y), z(z)
 	{
-		pad_to_minimums();  
+		pad_to_minimums();
 	}
 
 	aabb(const point3& a, const point3& b)
@@ -28,7 +28,6 @@ public:
 		z = (a[2] <= b[2]) ? interval(a[2], b[2]) : interval(b[2], a[2]);
 
 		pad_to_minimums();
-
 	}
 
 	aabb(const aabb& box0, const aabb& box1)
@@ -84,13 +83,12 @@ public:
 
 	static const aabb empty, universe;
 
-
 private:
-
 	/// <summary>
 	/// 保证 aabb 的体积不为0
 	/// </summary>
-	void pad_to_minimums() {
+	void pad_to_minimums()
+	{
 		// Adjust the AABB so that no side is narrower than some delta, padding if necessary.
 		constexpr double delta = 0.0001;
 		if (x.size() < delta) x = x.expand(delta);
@@ -102,3 +100,14 @@ private:
 
 const aabb aabb::empty = aabb(interval::empty, interval::empty, interval::empty);
 const aabb aabb::universe = aabb(interval::universe, interval::universe, interval::universe);
+
+
+inline aabb operator+(const aabb& bbox, const vec3& offset)
+{
+	return aabb(bbox.x + offset.x(), bbox.y + offset.y(), bbox.z + offset.z());
+}
+
+inline aabb operator+(const vec3& offset, const aabb& bbox)
+{
+	return bbox + offset;
+}
