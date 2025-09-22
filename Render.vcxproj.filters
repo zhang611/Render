@@ -128,5 +128,8 @@
     <ClInclude Include="cornell_smoke.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="final_scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

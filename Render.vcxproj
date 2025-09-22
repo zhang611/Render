@@ -138,6 +138,7 @@
     <ClInclude Include="constant_medium.h" />
     <ClInclude Include="cornell_box.h" />
     <ClInclude Include="cornell_smoke.h" />
+    <ClInclude Include="final_scene.h" />
     <ClInclude Include="hittable.h" />
     <ClInclude Include="hittable_list.h" />
     <ClInclude Include="interval.h" />

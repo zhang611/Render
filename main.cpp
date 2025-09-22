@@ -1,12 +1,12 @@
 #include <chrono>
 #include <Windows.h>
-#include "cornell_smoke.h"
+#include "final_scene.h"
 
 
 int main()
 {
 	const auto start = std::chrono::high_resolution_clock::now();
-	cornell_smoke();
+	final_scene();
 	const auto end = std::chrono::high_resolution_clock::now();
 	const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 	const std::string time_log = "(time: )" + std::to_string(duration.count() / 1000) + " s\n";
