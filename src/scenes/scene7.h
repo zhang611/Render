@@ -1,10 +1,12 @@
 #pragma once
-#include "rtweekend.h"
-#include "camera.h"
-#include "hittable_list.h"
-#include "sphere.h"
-#include "material.h"
-#include "texture.h"
+#include <string>
+
+#include "entity/hittable_list.h"
+#include "entity/material.h"
+#include "entity/sphere.h"
+#include "entity/texture.h"
+#include "render/camera.h"
+#include "utils/ProjectUtil.h"
 
 
 /// <summary>
@@ -32,5 +34,5 @@ inline void scene()
 
 	cam.defocus_angle = 0;
 
-	cam.render(hittable_list(globe), 7);
+	cam.render(hittable_list(globe), "7");
 }

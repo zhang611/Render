@@ -1,8 +1,8 @@
 #pragma once
 #include <fstream>
-#include "hittable.h"
-#include "ProjectUtil.h"
-#include "material.h"
+
+#include "utils/ProjectUtil.h"
+
 
 class camera
 {

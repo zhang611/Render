@@ -24,111 +24,111 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectUtil.h">
+    <ClCompile Include="src\utils\ProjectUtil.h">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="vec3.h">
+    <ClInclude Include="src\math\vec3.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="color.h">
+    <ClInclude Include="src\render\color.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ray.h">
+    <ClInclude Include="src\render\ray.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="sphere.h">
+    <ClInclude Include="src\entity\sphere.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="hittable.h">
+    <ClInclude Include="src\entity\hittable.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="hittable_list.h">
+    <ClInclude Include="src\entity\hittable_list.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="rtweekend.h">
+    <ClInclude Include="src\utils\rtweekend.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="interval.h">
+    <ClInclude Include="src\math\interval.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="src\render\camera.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="material.h">
+    <ClInclude Include="src\entity\material.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="aabb.h">
+    <ClInclude Include="src\math\aabb.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="bvh.h">
+    <ClInclude Include="src\math\bvh.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="cornell_box.h">
+    <ClInclude Include="src\scenes\cornell_box.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="perlin.h">
+    <ClInclude Include="src\entity\perlin.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="perlin_spheres.h">
+    <ClInclude Include="src\scenes\perlin_spheres.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="quad.h">
+    <ClInclude Include="src\entity\quad.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="quads.h">
+    <ClInclude Include="src\scenes\quads.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="rtw_stb_image.h">
+    <ClInclude Include="src\utils\rtw_stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene6.h">
+    <ClInclude Include="src\scenes\scene6.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene1.h">
+    <ClInclude Include="src\scenes\scene1.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene2.h">
+    <ClInclude Include="src\scenes\scene2.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene3.h">
+    <ClInclude Include="src\scenes\scene3.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene4.h">
+    <ClInclude Include="src\scenes\scene4.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene5.h">
+    <ClInclude Include="src\scenes\scene5.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene7.h">
+    <ClInclude Include="src\scenes\scene7.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="simple_light.h">
+    <ClInclude Include="src\scenes\simple_light.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.h">
+    <ClInclude Include="src\utils\stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="texture.h">
+    <ClInclude Include="src\entity\texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="triangle.h">
+    <ClInclude Include="src\entity\triangle.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="triangles.h">
+    <ClInclude Include="src\scenes\triangles.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="constant_medium.h">
+    <ClInclude Include="src\entity\constant_medium.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="cornell_smoke.h">
+    <ClInclude Include="src\scenes\cornell_smoke.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="final_scene.h">
+    <ClInclude Include="src\scenes\final_scene.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

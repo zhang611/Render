@@ -1,10 +1,9 @@
 #pragma once
 
-
-#include "aabb.h"
-#include "hittable.h"
-#include "hittable_list.h"
 #include <algorithm>
+
+#include "entity/hittable.h"
+#include "entity/hittable_list.h"
 
 
 class bvh_node : public hittable
@@ -20,7 +19,6 @@ public:
 
 	bvh_node(std::vector<shared_ptr<hittable>>& objects, size_t start, size_t end)
 	{
-
 		// Build the bounding box of the span of source objects.
 		bbox = aabb::empty;
 		for (size_t object_index = start; object_index < end; object_index++)
@@ -35,10 +33,7 @@ public:
 
 		size_t object_span = end - start;
 
-		if (object_span == 1)
-		{
-			left = right = objects[start];
-		}
+		if (object_span == 1) left = right = objects[start];
 		else if (object_span == 2)
 		{
 			left = objects[start];

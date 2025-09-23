@@ -1,6 +1,6 @@
-# pragma once
-
-
+#pragma once
+#include <iostream>
+#include "utils/rtweekend.h"
 class vec3
 {
 public:

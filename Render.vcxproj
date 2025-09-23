@@ -70,6 +70,20 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PublicIncludeDirectories>$(MSBuildProjectDirectory)\src\*</PublicIncludeDirectories>
+    <IncludePath>$(PublicIncludeDirectories)\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PublicIncludeDirectories>$(MSBuildProjectDirectory)\src\*</PublicIncludeDirectories>
+    <IncludePath>$(PublicIncludeDirectories)\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(PublicIncludeDirectories)\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(PublicIncludeDirectories)\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -127,43 +141,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="ProjectUtil.h" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="aabb.h" />
-    <ClInclude Include="bvh.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="color.h" />
-    <ClInclude Include="constant_medium.h" />
-    <ClInclude Include="cornell_box.h" />
-    <ClInclude Include="cornell_smoke.h" />
-    <ClInclude Include="final_scene.h" />
-    <ClInclude Include="hittable.h" />
-    <ClInclude Include="hittable_list.h" />
-    <ClInclude Include="interval.h" />
-    <ClInclude Include="material.h" />
-    <ClInclude Include="perlin.h" />
-    <ClInclude Include="perlin_spheres.h" />
-    <ClInclude Include="quad.h" />
-    <ClInclude Include="quads.h" />
-    <ClInclude Include="ray.h" />
-    <ClInclude Include="rtweekend.h" />
-    <ClInclude Include="rtw_stb_image.h" />
-    <ClInclude Include="scene6.h" />
-    <ClInclude Include="scene1.h" />
-    <ClInclude Include="scene2.h" />
-    <ClInclude Include="scene3.h" />
-    <ClInclude Include="scene4.h" />
-    <ClInclude Include="scene5.h" />
-    <ClInclude Include="scene7.h" />
-    <ClInclude Include="simple_light.h" />
-    <ClInclude Include="sphere.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="texture.h" />
-    <ClInclude Include="triangle.h" />
-    <ClInclude Include="triangles.h" />
-    <ClInclude Include="vec3.h" />
+    <ClInclude Include="src\utils\ProjectUtil.h" />
+    <ClInclude Include="src\math\aabb.h" />
+    <ClInclude Include="src\math\bvh.h" />
+    <ClInclude Include="src\render\camera.h" />
+    <ClInclude Include="src\render\color.h" />
+    <ClInclude Include="src\entity\constant_medium.h" />
+    <ClInclude Include="src\scenes\cornell_box.h" />
+    <ClInclude Include="src\scenes\cornell_smoke.h" />
+    <ClInclude Include="src\scenes\final_scene.h" />
+    <ClInclude Include="src\entity\hittable.h" />
+    <ClInclude Include="src\entity\hittable_list.h" />
+    <ClInclude Include="src\math\interval.h" />
+    <ClInclude Include="src\entity\material.h" />
+    <ClInclude Include="src\entity\perlin.h" />
+    <ClInclude Include="src\scenes\perlin_spheres.h" />
+    <ClInclude Include="src\entity\quad.h" />
+    <ClInclude Include="src\scenes\quads.h" />
+    <ClInclude Include="src\render\ray.h" />
+    <ClInclude Include="src\utils\rtweekend.h" />
+    <ClInclude Include="src\utils\rtw_stb_image.h" />
+    <ClInclude Include="src\scenes\scene6.h" />
+    <ClInclude Include="src\scenes\scene1.h" />
+    <ClInclude Include="src\scenes\scene2.h" />
+    <ClInclude Include="src\scenes\scene3.h" />
+    <ClInclude Include="src\scenes\scene4.h" />
+    <ClInclude Include="src\scenes\scene5.h" />
+    <ClInclude Include="src\scenes\scene7.h" />
+    <ClInclude Include="src\scenes\simple_light.h" />
+    <ClInclude Include="src\entity\sphere.h" />
+    <ClInclude Include="src\utils\stb_image.h" />
+    <ClInclude Include="src\entity\texture.h" />
+    <ClInclude Include="src\entity\triangle.h" />
+    <ClInclude Include="src\scenes\triangles.h" />
+    <ClInclude Include="src\math\vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

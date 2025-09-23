@@ -1,14 +1,13 @@
 #pragma once
-#include "rtweekend.h"
-#include "camera.h"
-#include "hittable_list.h"
-#include "sphere.h"
-#include "material.h"
-#include "texture.h"
-#include "quad.h"
+#include "entity/hittable_list.h"
+#include "entity/material.h"
+#include "entity/quad.h"
+#include "entity/triangle.h"
+#include "render/camera.h"
+#include "render/color.h"
 
 
-inline void quads()
+inline void triangles()
 {
 	hittable_list world;
 
@@ -20,10 +19,10 @@ inline void quads()
 	auto lower_teal = make_shared<lambertian>(color(0.2, 0.8, 0.8));
 
 	// Quads
-	world.add(make_shared<quad>(point3(-3, -2, 5), vec3(0, 0, -4), vec3(0, 4, 0), left_red));
-	world.add(make_shared<quad>(point3(-2, -2, 0), vec3(4, 0, 0), vec3(0, 4, 0), back_green));
-	world.add(make_shared<quad>(point3(3, -2, 1), vec3(0, 0, 4), vec3(0, 4, 0), right_blue));
-	world.add(make_shared<quad>(point3(-2, 3, 1), vec3(4, 0, 0), vec3(0, 0, 4), upper_orange));
+	world.add(make_shared<triangle>(point3(-3, -2, 5), vec3(0, 0, -4), vec3(0, 4, 0), left_red));
+	world.add(make_shared<triangle>(point3(-2, -2, 0), vec3(4, 0, 0), vec3(0, 4, 0), back_green));
+	world.add(make_shared<triangle>(point3(3, -2, 1), vec3(0, 0, 4), vec3(0, 4, 0), right_blue));
+	world.add(make_shared<triangle>(point3(-2, 3, 1), vec3(4, 0, 0), vec3(0, 0, 4), upper_orange));
 	world.add(make_shared<quad>(point3(-2, -3, 5), vec3(4, 0, 0), vec3(0, 0, -4), lower_teal));
 
 	camera cam;
@@ -40,5 +39,5 @@ inline void quads()
 
 	cam.defocus_angle = 0;
 
-	cam.render(world, "quads");
+	cam.render(world, "triangles");
 }

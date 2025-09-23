@@ -2,8 +2,8 @@
 #include <algorithm>
 
 #include "interval.h"
-#include "ray.h"
 #include "vec3.h"
+#include "render/ray.h"
 
 class aabb
 {

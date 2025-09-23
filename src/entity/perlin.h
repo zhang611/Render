@@ -1,5 +1,5 @@
 #pragma once
-#include "rtweekend.h"
+#include "utils/rtweekend.h"
 
 class perlin
 {

@@ -1,13 +1,14 @@
 #pragma once
-
 #include "hittable.h"
+#include "hittable_list.h"
 #include "material.h"
 #include "texture.h"
+
 
 class constant_medium : public hittable
 {
 public:
-	constant_medium(shared_ptr<hittable> boundary, const double density, const shared_ptr<texture>& tex)
+	constant_medium(::shared_ptr<hittable> boundary, const double density, const shared_ptr<texture>& tex)
 		: boundary(std::move(boundary)), neg_inv_density(-1 / density),
 		  phase_function(make_shared<isotropic>(tex))
 	{

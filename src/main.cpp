@@ -1,6 +1,6 @@
 #include <chrono>
 #include <Windows.h>
-#include "final_scene.h"
+#include "scenes/final_scene.h"
 
 
 int main()

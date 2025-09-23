@@ -1,30 +1,42 @@
-# pragma once
-#include "rtweekend.h"
-#include "aabb.h"
+#pragma once
 
-class material;
+// NOTE:
+// Originally this header included "material.h". That created a circular
+// include:
+//   material.h -> (needs hit_record) -> hittable.h -> material.h
+// which caused hit_record to be an incomplete type when material.h was parsed,
+// leading to numerous "ä½¿ç”¨äº†æœªå®šä¹‰ç±»åž‹ hit_record" errors in MSVC.
+// We break the cycle by forward declaring material here and moving the include
+// of this header into material.h instead.
 
+#include <memory>
+
+#include "math/aabb.h"
+#include "math/vec3.h"
+#include "render/ray.h"
+
+class material;  // forward declaration
 
 class hit_record
 {
 public:
 	point3 p;
 	vec3 normal;
-	shared_ptr<material> mat;
+	::shared_ptr<material> mat;
 	double t;
 
-	// ÎÆÀí×ø±ê
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	double u;
 	double v;
 
 	bool front_face;
 
-	void set_face_normal(const ray& r, const vec3& outward_normal)
+	inline void set_face_normal(const ray& r, const vec3& outward_normal)
 	{
 		// Sets the hit record normal vector.
 		// NOTE: the parameter `outward_normal` is assumed to have unit length.
 
-		front_face = dot(r.direction(), outward_normal) < 0; // ¹âÔÚÍâÃæ£¬¹âµÄ·½ÏòºÍ·¨Ïß·½Ïò¼Ð½Ç´óÓÚ90¶ÈÎªÕýÃæ
+		front_face = dot(r.direction(), outward_normal) < 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½Ä·ï¿½ï¿½ï¿½Í·ï¿½ï¿½ß·ï¿½ï¿½ï¿½Ð½Ç´ï¿½ï¿½ï¿½90ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 		normal = front_face ? outward_normal : -outward_normal;
 	}
 };
@@ -49,8 +61,8 @@ public:
 		bbox_ = object->bounding_box() + offset_;
 	}
 
-	// ÎïÌå²»¶¯£¬¹âÏß¶¯
-	// ÎïÌåÏòÇ°Æ½ÒÆÏàµ±ÓÚ£¬»¹ÊÇÔ­À´ÄÇ¸öµã£¬ºÍ½»µãºóÃæµÄµãËã×ÅÉ«
+	// ï¿½ï¿½ï¿½å²»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Æ½ï¿½ï¿½ï¿½àµ±ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ã£¬ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½É«
 	bool hit(const ray& r, const interval ray_t, hit_record& rec) const override
 	{
 		// Move the ray backwards by the offset
@@ -75,7 +87,7 @@ private:
 };
 
 
-// TODO Àí½âÐý×ªµÄÏà¶Ô±ä»»
+// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ô±ä»»
 class rotate_y : public hittable
 {
 public:

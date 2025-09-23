@@ -1,11 +1,12 @@
 #pragma once
-#include "bvh.h"
-#include "camera.h"
-#include "hittable_list.h"
-#include "material.h"
-#include "quad.h"
-#include "constant_medium.h"
-#include "sphere.h"
+#include "entity/constant_medium.h"
+#include "entity/hittable_list.h"
+#include "entity/material.h"
+#include "entity/quad.h"
+#include "entity/sphere.h"
+#include "math/bvh.h"
+#include "render/camera.h"
+#include "utils/ProjectUtil.h"
 
 
 inline void final_scene(int image_width = 800, int samples_per_pixel = 1000, int max_depth = 40)
@@ -89,5 +90,5 @@ inline void final_scene(int image_width = 800, int samples_per_pixel = 1000, int
 
 	cam.defocus_angle = 0;
 
-	cam.render(world, "final_scene");
+	cam.render(world, "final_scene1");
 }

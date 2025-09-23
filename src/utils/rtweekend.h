@@ -1,10 +1,7 @@
 #pragma once
 
-#include <cmath>
-#include <iostream>
 #include <limits>
 #include <memory>
-#include <cstdlib>
 #include <random>
 
 
@@ -33,7 +30,7 @@ inline double degrees_to_radians(const double degrees)
 inline double random_double()
 {
 	static std::uniform_real_distribution<double> distribution(0.0, 1.0);
-	static std::mt19937 generator;
+	static std::mt19937 generator; // NOLINT(cert-msc51-cpp)
 	return distribution(generator);
 }
 
@@ -48,10 +45,3 @@ inline int random_int(const int min, const int max)
 	// Returns a random integer in [min_,max_].
 	return static_cast<int>(random_double(min, max + 1));
 }
-
-// Common Headers
-
-#include "color.h"
-#include "ray.h"
-#include "vec3.h"
-#include "interval.h"

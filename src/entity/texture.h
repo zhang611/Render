@@ -1,10 +1,10 @@
 #pragma once
-#include <cmath>
 #include <memory>
 
-#include "color.h"
 #include "perlin.h"
-#include "rtw_stb_image.h"
+#include "render/color.h"
+#include "utils/rtw_stb_image.h"
+
 
 class texture
 {

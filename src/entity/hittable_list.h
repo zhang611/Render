@@ -1,9 +1,6 @@
 #pragma once
-#include "rtweekend.h"
-#include "hittable.h"
-#include "aabb.h"
+#include <memory>
 
-#include <vector>
 
 using std::make_shared;
 using std::shared_ptr;

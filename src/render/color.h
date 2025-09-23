@@ -1,6 +1,7 @@
 #pragma once
-#include "interval.h"
-#include "vec3.h"
+#include "math/interval.h"
+#include "math/vec3.h"
+
 
 using color = vec3;
 
@@ -22,7 +23,7 @@ inline void write_color(std::ostream& out, const color& pixel_color)
 	b = linear_to_gamma(b);
 
 	// Translate the [0,1] component values to the byte range [0,255].
-	static const interval intensity(0.000, 0.999);
+	static interval intensity(0.000, 0.999);
 	const int r_byte = static_cast<int>(256 * intensity.clamp(r));
 	const int g_byte = static_cast<int>(256 * intensity.clamp(g));
 	const int b_byte = static_cast<int>(256 * intensity.clamp(b));

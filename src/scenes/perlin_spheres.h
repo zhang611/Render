@@ -1,10 +1,9 @@
 #pragma once
-#include "rtweekend.h"
-#include "camera.h"
-#include "hittable_list.h"
-#include "sphere.h"
-#include "material.h"
-#include "texture.h"
+#include "entity/hittable_list.h"
+#include "entity/material.h"
+#include "entity/sphere.h"
+#include "entity/texture.h"
+#include "render/camera.h"
 
 
 inline void perlin_spheres()

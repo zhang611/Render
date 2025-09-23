@@ -1,7 +1,8 @@
 #pragma once
-#include "hittable.h"
+#include "hittable.h"  // for hit_record definition (forward decl previously removed circular include)
 #include "texture.h"
 
+class ray;
 
 class material
 {
@@ -39,7 +40,7 @@ public:
 	{
 		auto scatter_direction = rec.normal + random_unit_vector();
 
-		// Catch degenerate scatter direction ·ÅÖÃÉ¢Éä·½Ïò½Ó½ü0µÄÇé¿ö
+		// Catch degenerate scatter direction ï¿½ï¿½ï¿½ï¿½É¢ï¿½ä·½ï¿½ï¿½Ó½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (scatter_direction.near_zero()) scatter_direction = rec.normal;
 
 
@@ -70,11 +71,11 @@ public:
 	const override
 	{
 		vec3 reflected = reflect(r_in.direction(), rec.normal);
-		reflected = unit_vector(reflected) + (fuzz * random_unit_vector()); // Ä£ºý´¦Àí
+		reflected = unit_vector(reflected) + (fuzz * random_unit_vector()); // Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		scattered = ray(rec.p, reflected, r_in.time());
 		attenuation = albedo;
-		return (dot(scattered.direction(), rec.normal) > 0); // É¢Éä·½ÏòºÍ·¨ÏßÍ¬²à£¬É¢Éä»ØÀ´µÄ¹âÎüÊÕµô
+		return (dot(scattered.direction(), rec.normal) > 0); // É¢ï¿½ä·½ï¿½ï¿½Í·ï¿½ï¿½ï¿½Í¬ï¿½à£¬É¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½Õµï¿½
 	}
 
 private:
@@ -162,7 +163,7 @@ public:
 	bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered)
 	const override
 	{
-		scattered = ray(rec.p, random_unit_vector(), r_in.time()); // Ëæ»úÉ¢Éä
+		scattered = ray(rec.p, random_unit_vector(), r_in.time()); // ï¿½ï¿½ï¿½É¢ï¿½ï¿½
 		attenuation = tex_->value(rec.u, rec.v, rec.p);
 		return true;
 	}
