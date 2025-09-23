@@ -19,45 +19,82 @@ public:
 	point3 lookat = point3(0, 0, -1); // Point camera is looking at
 	vec3 vup = vec3(0, 1, 0); // Camera-relative "up" direction
 
-	// Ä£Äâ¾°Éî£¬´ÓÔ²ÅÌ·¢Éä¹â
+	// Ä£ï¿½â¾°ï¿½î£¬ï¿½ï¿½Ô²ï¿½Ì·ï¿½ï¿½ï¿½ï¿½
 	double defocus_angle = 0; // Variation angle of rays through each pixel
 	double focus_dist = 10; // Distance from camera lookfrom point to plane of perfect focus
 
 	void render(const hittable& world, const std::string& name)
 	{
-		const std::string filename = get_project_root_dir() + "\\output_" + name + ".ppm";
-		std::ofstream out(filename); // Êä³öµ½ÎÄ¼ş
-
 		initialize();
 
-		out << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+		// å¸§ç¼“å†²ï¼šæŒ‰è¡Œä¸»åºå­˜å‚¨æ¯ä¸ªåƒç´ æœ€ç»ˆé¢œè‰²
+		std::vector<color> framebuffer(image_width * image_height, color(0, 0, 0));
 
-		for (int j = 0; j < image_height; j++)
+		// å¹¶è¡Œç­–ç•¥ï¼šæŒ‰æ‰«æè¡Œåˆ†å—ã€‚å—å¤§å°å¯è°ƒï¼ˆcache å‹å¥½ + å‡å°‘ç«äº‰ï¼‰ã€‚
+		const int hardware_threads = max(1u, std::thread::hardware_concurrency());
+		constexpr int block_lines = 4; // æ¯ä¸ªä»»åŠ¡å¤„ç†çš„è¡Œæ•°ï¼Œå¯æ ¹æ®åœºæ™¯/CPU è°ƒæ•´
+
+		std::atomic<int> next_line{0};
+		std::atomic<int> lines_done{0};
+
+		auto worker = [&]()
 		{
-			std::clog << "\rScanline's remaining: " << (image_height - j) << ' ' << std::flush;
-			for (int i = 0; i < image_width; i++)
+			while (true)
 			{
-				color pixel_color(0, 0, 0);
-
-				for (int s_j = 0; s_j < sqrt_spp; s_j++)
+				int start = next_line.fetch_add(block_lines);
+				if (start >= image_height) break;
+				int end = min(start + block_lines, image_height);
+				for (int j = start; j < end; ++j)
 				{
-					for (int s_i = 0; s_i < sqrt_spp; s_i++)
+					for (int i = 0; i < image_width; ++i)
 					{
-						ray r = get_ray(i, j, s_i, s_j);
-						pixel_color += ray_color(r, max_depth, world);
+						color pixel_color(0, 0, 0);
+						// åˆ†å±‚é‡‡æ ·
+						for (int s_j = 0; s_j < sqrt_spp; ++s_j)
+						{
+							for (int s_i = 0; s_i < sqrt_spp; ++s_i)
+							{
+								ray r = get_ray(i, j, s_i, s_j);
+								pixel_color += ray_color(r, max_depth, world);
+							}
+						}
+						framebuffer[j * image_width + i] = pixel_samples_scale * pixel_color;
 					}
+					lines_done.fetch_add(1);
 				}
+			}
+		};
 
-				// for (int sample = 0; sample < samples_per_pixel; sample++)
-				// {
-				// 	ray r = get_ray(i, j);
-				// 	pixel_color += ray_color(r, max_depth, world);
-				// }
-				write_color(out, pixel_samples_scale * pixel_color);
+		std::vector<std::thread> threads;
+		threads.reserve(hardware_threads);
+		for (int t = 0; t < hardware_threads; ++t)
+		{
+			threads.emplace_back(worker);
+		}
+
+		// ç®€å•è¿›åº¦è¾“å‡º
+		while (lines_done.load() < image_height)
+		{
+			std::clog << "\rScanlines remaining: " << (image_height - lines_done.load()) << ' ' << std::flush;
+			std::this_thread::sleep_for(std::chrono::milliseconds(250));  // ä¸»çº¿ç¨‹æ¯ 250ms æ‰æŸ¥è¯¢ä¸€æ¬¡è¿›åº¦ï¼ŒæŠŠèµ„æºç»™å·¥ä½œçº¿ç¨‹
+		}
+
+		for (auto& th : threads) th.join();
+		std::clog << "\rScanlines remaining: 0            \n";
+
+		// è¾“å‡ºåˆ°æ–‡ä»¶
+		const std::string filename = get_project_root_dir() + "\\output_" + name + ".ppm";
+		std::ofstream out(filename);
+		out << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+		for (int j = 0; j < image_height; ++j)
+		{
+			for (int i = 0; i < image_width; ++i)
+			{
+				write_color(out, framebuffer[j * image_width + i]);
 			}
 		}
 
-		std::clog << "\rDone.                 \n";
+		std::clog << "Done (multithread). Output: " << filename << "\n";
 	}
 
 private:
@@ -71,7 +108,7 @@ private:
 	vec3 pixel_delta_v; // Offset to pixel below
 
 	/// <summary>
-	/// v ÏòÉÏ£¬wºÍÊÓÏß·½ÏòÏà·´£¬u ÏòÓÒ
+	/// v ï¿½ï¿½ï¿½Ï£ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½ï¿½à·´ï¿½ï¿½u ï¿½ï¿½ï¿½ï¿½
 	/// </summary>
 	vec3 u, v, w; // Camera frame basis vectors
 	vec3 defocus_disk_u; // Defocus disk horizontal radius
@@ -182,8 +219,8 @@ private:
 	}
 
 
-	// ¶¶¶¯Ëã·¨£¬°ÑÆ½Ãæ·Ö³É sqrt_spp x sqrt_spp ¸öĞ¡¸ñ×Ó£¬ÔÚÃ¿¸öĞ¡¸ñ×ÓÄÚËæ»ú²ÉÑù
-	// ±ÜÃâÁË´¿Ëæ»ú²ÉÑùÊ±¿ÉÄÜ³öÏÖµÄ²ÉÑùµã¹ıÓÚ¼¯ÖĞ»ò¹ıÓÚ·ÖÉ¢µÄÎÊÌâ£¬Ğ§¹û¸üºÃ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½Ö³ï¿½ sqrt_spp x sqrt_spp ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ü³ï¿½ï¿½ÖµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½Ğ»ï¿½ï¿½ï¿½Ú·ï¿½É¢ï¿½ï¿½ï¿½ï¿½ï¿½â£¬Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	vec3 sample_square_stratified(const int s_i, const int s_j) const
 	{
 		// Returns the vector to a random point in the square sub-pixel specified by grid

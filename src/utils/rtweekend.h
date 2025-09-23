@@ -3,6 +3,7 @@
 #include <limits>
 #include <memory>
 #include <random>
+#include <thread>
 
 
 // C++ Std Usings
@@ -29,8 +30,9 @@ inline double degrees_to_radians(const double degrees)
 
 inline double random_double()
 {
-	static std::uniform_real_distribution<double> distribution(0.0, 1.0);
-	static std::mt19937 generator; // NOLINT(cert-msc51-cpp)
+	// 线程安全：每个线程拥有自己的随机数引擎与分布
+	thread_local std::uniform_real_distribution<double> distribution(0.0, 1.0);
+	thread_local std::mt19937 generator(std::random_device{}());
 	return distribution(generator);
 }
 
